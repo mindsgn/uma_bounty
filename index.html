@@ -4,38 +4,54 @@
     <meta charset="UTF-8" />
     <title>UMA</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
   </head>
-
-  <div class="container" id="start">
-    <img src="logo.svg" width="70%">
-  
-    <button id="startButton">Start</button>
-  <div>
-
-  <div class="container" id="walk">
-    <div class="box" id="step-1">
-      <p>Did you clone the repository launch-lsp?</p>
-      <button>Yes</button>
-      <button>No</button>
-    </div>
-
-    <div class="box" id="step-2">
-      <p>Directory locaction:</p>
-      <input placeholder="List channel"/>
-    </div>
-
-    <div class="box" id="step-3">
-      <p>Please enter your Neumonic Key:</p>
-      <input placeholder="List channel"/>
-    </div>
-
-    <div class="box" id="step-3">
-      <p>Directory locaction:</p>
-      <input placeholder="List channel"/>
-    </div>
-  <div>
-
   <body>
-    <script src="./src/renderer.js"></script>
+    <div class="container" id="start">
+      <img src="logo.svg" width="70%">
+      <button id="startButton">Start</button>
+    </div>
+
+    <div id="dashboard">
+      <div id="side">
+        <div class="title">Contracts</div>
+        <div class="side-button" id="button-1">Binary Option</div>
+        <div class="side-button" id="button-2">Covered Call</div>
+        <div class="side-button" id="button-3">Linear</div>
+        <div class="side-button" id="button-4">Range Token</div>
+        <div class="side-button" id="button-5">Capped Yield Dollar</div>
+        <div class="side-button" id="button-6">Success Token</div>
+        <div class="side-button" id="button-7">Simple Success Token</div>
+      </div>
+        
+      <div class="" id="main">
+        <div class="title" id="main-title">Title</div>
+        <div class="modal" id="main-about">Hello</div>
+        <div id="options">
+          <div>Required</div>
+          <div>Directory: <input type="text" /></div>
+          <div>Network: <input type="text" /></div>
+          <div>Mnemonic: <input type="text" /></div>
+          <div>Gas Price: <input type="text" /></div>
+          <div>Expiration Time stamp: <input type="text" /></div>
+          <div>Collateral Per Pair: <input type="text" /></div>
+          <div>Price Identifier: <input type="text" /></div>
+          <div>Pair Name: <input type="text" /></div>
+          <div>Long Synth Name: <input type="text" /></div>
+          <div>Long Synth Symbol: <input type="text" /></div>
+          <div>Pair Name: <input type="text" /></div>
+          <div>Short Synth Name: <input type="text" /></div>
+          <div>Short Synth Symbol: <input type="text" /></div>
+          <div>collateral Token: <input type="text" /></div>
+        </div>
+        <button id="startButton">Deploy</button>
+      </div>
+
+      <div class="" id="error">
+      </div>
+    <div>
   </body>
+  <script src="./src/renderer.js"></script>
 </html>

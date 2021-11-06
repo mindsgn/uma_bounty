@@ -5,12 +5,13 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
+    width: 800,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 800,
+    icon: __dirname + '/assets/favicon.ico',
   });
 
   // and load the index.html of the app.
@@ -25,7 +26,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   createWindow();
-
+ 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

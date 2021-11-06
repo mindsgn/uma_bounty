@@ -8,8 +8,26 @@
   "repository": "",
   "author": "GitHub",
   "license": "CC0-1.0",
+  "mac": {
+    "icon": "./src/assets/favicon.icon",
+    "category": "public.app-category.utilities"
+  },
+  "win": {
+    "icon": "./src/assets/favicon.icon"
+  },
+  "files": [
+    "./build/**/*",
+    "./dist/**/*",
+    "./node_modules/**/*",
+    "./src/**/*",
+    "*.js"
+  ],
+  "directories": {
+    "buildResources": "src"
+  },
   "devDependencies": {
-    "electron": "^15.2.0"
+    "electron": "^15.2.0",
+    "electron-builder": "^22.13.1"
   },
   "dependencies": {}
 }
