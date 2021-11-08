@@ -25,6 +25,14 @@ button{
     border-radius: 10px;
 }
 
+input{
+    border: none;
+    outline: none;
+    font-size: 25px;
+    min-width: 200px;
+    border-bottom: 2px solid black;
+}
+
 .container{
     position: absolute;
     display: flex;
@@ -98,4 +106,26 @@ button{
 
 #main-about{
     display: none;
+}
+
+.item{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.code{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 20px;
+    margin-bottom: 50px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 75vw;
+    min-width: 75vw;
+    overflow-x: scroll;
 }
