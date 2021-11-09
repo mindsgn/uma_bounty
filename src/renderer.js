@@ -28,69 +28,56 @@ const inputNetwork = document.getElementById("inputNetwork");
 const inputMnemonic = document.getElementById("inputMnemonic");
 const inputPairName = document.getElementById("inputPairName");
 const InputExpirationTimeStamp = document.getElementById("InputExpirationTimeStamp");
+const inputCollateralPerPair= document.getElementById("inputCollateralPerPair");
 const inputPriceIdentifier = document.getElementById("inputPriceIdentifier");
 const inputLongSynthName = document.getElementById("inputLongSynthName");
 const inputLongSynthSymbol = document.getElementById("inputLongSynthSymbol");
-const inputShortSynthName = document.getElementById("inputLongSynthSymbol");
-const inputShortSynthSymbol = document.getElementById("inputLongSynthSymbol");
-const inputCollateralToken = document.getElementById("inputcollateralToken");
+const inputShortSynthName = document.getElementById("inputLongSynthName");
+const inputShortSynthSymbol = document.getElementById("inputShortSynthSymbol");
+const inputCollateralToken = document.getElementById("inputShortSynthSymbol");
 const inputStrikePrice = document.getElementById("inputstrikePrice");
 const inputPrepaidProposerBond = document.getElementById("inputprepaidProposerBond");
 const inputOptimisticOracleProposerBond = document.getElementById("inputOptimisticOracleProposerBond");
 
 let directory = null;
-let gasPrice = 50;
+let gasPrice = 1;
 let network = null;
 let nmemonic = null;
 let fpl = null;
 let pairName = null;
 let expirationTimestamp = null;
-let collateralPerPair = null;
+let collateralPerPair = 250000000000000000;
 let priceIdentifier = null;
 let longSynthName = null;
 let longSynthSymbol = null;
 let shortSynthName = null;
 let shortSynthSymbol = null;
-let collateralToken = null;
-let strikePrice = null;
-let prepaidProposerBond = null;
-let optimisticOracleProposerBond = null;
+let collateralToken = "0x489Bf230d4Ab5c2083556E394a28276C22c3B580";
+let strikePrice = 12000000000000000000;
+let prepaidProposerBond = 20000000000000000000;
+let optimisticOracleProposerBond = 40000000000000000000;
+
 let code = null;
 
-const deployContact = () => {
-        exec(`node ${directory}index.js --gasprice ${gasPrice} --url ${network} --mnemonic "${nuemonic}" --pairName ${pairName} --expirationTimestamp 1661983200 --collateralPerPair 250000000000000000 --priceIdentifier UMAUSD --longSynthName "UMA \$12 Binary Option Token August 2022" --longSynthSymbol UMA-0822 --shortSynthName "UMA \$12 Binary Option Short Token August 2022" --shortSynthSymbol UMA-0822s --collateralToken 0x489Bf230d4Ab5c2083556E394a28276C22c3B580 --fpl BinaryOption --strikePrice 12000000000000000000 --prepaidProposerBond 20000000000000000000 --optimisticOracleProposerBond 40000000000000000000`, (error, data, getter) => {
+const deployToken = () => {
+        document.getElementById("button-box").style.display = "none";
+        exec(`${code}`, (error, data, getter) => {
                 if(error){
-                        console.log(error)
+                        document.getElementById("button-box").style.display = "flex";
+                        document.getElementById("status-console").innerText = error;
                         return;
                 }
 
                 if(getter){
-                        console.log("data",data);
+                        document.getElementById("button-box").style.display = "flex";
+                        document.getElementById("status-console").innerText = error;
                         return;
-                }
-                console.log(data);
-                versionNumber = parseInt(data.replace('v', ''));
-
-                if(versionNumber && versionNumber <= 14){
-                        Install();
-                }else{
-                        console.log("please install node 14 + ");
                 }
         });
 };
 
 const updateCode = () => {
-        code = `node ${directory}/index.js 
-                --gasprice ${gasPrice} --url ${network} 
-                --mnemonic "${nmemonic}" --pairName "${pairName}"
-                --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair} 
-                --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}"
-                --longSynthSymbol "${longSynthSymbol}" --shortSynthName "${shortSynthName}"
-                --shortSynthSymbol "${shortSynthSymbol}" --collateralToken ${collateralToken}
-                --fpl "${fpl}" --strikePrice ${strikePrice}  
-                --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}
-                `;
-
+        code = `node ${directory}/index.js --gasprice ${gasPrice}  --url ${network}  --mnemonic "${nmemonic}" --pairName "${pairName}"  --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair}  --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}" --longSynthSymbol ${longSynthSymbol} --shortSynthName "${shortSynthName}" --shortSynthSymbol ${shortSynthSymbol} --collateralToken ${collateralToken} --fpl "${fpl}" --strikePrice ${strikePrice}  --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}`;
         document.getElementById("code").innerText = code;
 };
 
@@ -120,7 +107,8 @@ const updatePairName = (event) => {
 };
 
 const updateExpirationTimeStamp = (event) => {
-        expirationTimestamp = event.target.value;
+        console.log(event.target.value);
+        expirationTimestamp = Math.floor(Date.parse(event.target.value) / 1000);
         updateCode();
 };
 
@@ -173,6 +161,11 @@ const updateOptimisticOracleProposerBond = (event) => {
         optimisticOracleProposerBond = event.target.value;
         updateCode();
 };
+
+const pageReady = () => {
+        document.getElementById("start").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+}
 
 /*
 * button events
@@ -230,12 +223,18 @@ simpleButton.onclick = () => {
         document.getElementById("main-about").innerHTML = "Binary options settle with all collateral allocated to either the long or short side, depending on the settlement price. They can be used to make prediction markets or any kind of binary bet. Settlement is defined using a strike price which informs which side of the bet was correct. If the settlement price is greater or equal to the strike then all value is sent to the long side. Otherwise, all value is sent to the short side. The settlement price could be a scalar (like the price of ETH) or a binary bet with settlement being 0 or 1 depending on the outcome.";
 }
 
+deployButton.onclick = () => {
+        deployToken();
+}
+
+//initialize
 inputDirectory.addEventListener('input', updateDirectory);
 inputGasPrice.addEventListener('input', updateGasPrice);
 inputNetwork.addEventListener('input', updateNetwork);
 inputMnemonic.addEventListener('input', updateNmemonic);
 inputPairName.addEventListener('input', updatePairName);
 InputExpirationTimeStamp.addEventListener('input', updateExpirationTimeStamp);
+inputCollateralPerPair.addEventListener('input', updateCollateralPerPair);
 inputPriceIdentifier.addEventListener('input', updatePriceIdentifier);
 inputLongSynthName.addEventListener('input', updateLongSynthName);
 inputLongSynthSymbol.addEventListener('input', updateLongSynthSymbol);
@@ -250,3 +249,6 @@ document.getElementById("main-title").innerText = "Binary Option";
 document.getElementById("main-about").innerText = "Binary options settle with all collateral allocated to either the long or short side, depending on the settlement price. They can be used to make prediction markets or any kind of binary bet. Settlement is defined using a strike price which informs which side of the bet was correct. If the settlement price is greater or equal to the strike then all value is sent to the long side. Otherwise, all value is sent to the short side. The settlement price could be a scalar (like the price of ETH) or a binary bet with settlement being 0 or 1 depending on the outcome.";
 fpl = "BinaryOption";
 updateCode();
+
+
+document.addEventListener('DOMContentLoaded', pageReady);
