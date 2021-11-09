@@ -8,7 +8,7 @@
   <body>
     <div class="container" id="start">
       <img src="logo.svg" width="70%">
-      <button id="startButton">Start</button>
+      <button id="startButton">START</button>
     </div>
 
     <div id="dashboard">
@@ -37,21 +37,22 @@
           <div class="item"><div>Network:</div> <input id="inputNetwork" placeholder="wss://kovan.infura.io/ws/v3/" type="text" /></div>
           <div class="item"><div>Mnemonic:</div> <input type="text" id="inputMnemonic" placeholder="your mnemonic (12 word seed phrase)"/></div>
           <div class="item"><div>Pair Name:</div> <input type="text" id="inputPairName" placeholder="UMA \$12 Binary Option Token Pair August 2022"/></div>
-          <div class="item"><div>Expiration Time stamp:</div> <input type="date" id="InputExpirationTimeStamp" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"></div>
+          <div class="item"><div>Expiration Time stamp:</div> <input type="date" id="InputExpirationTimeStamp" name="trip-start" value="2021-11-01"></div>
           <div class="item"><div>Collateral Per Pair:</div> <input id="inputCollateralPerPair" type="range" name="volume" min="1" max="1000000000000000000"></div>
-          <div class="item"><div>Price Identifier:</div> <input id="inputPriceIdentifier" type="text" /></div>
-          <div class="item"><div>Long Synth Name:</div> <input id="inputLongSynthName" type="text" /></div>
-          <div class="item"><div>Long Synth Symbol:</div> <input id="inputLongSynthSymbol" type="text" /></div>
-          <div class="item"><div>Short Synth Name:</div> <input id="inputShortSynthName" type="text" /></div>
-          <div class="item"><div>Short Synth Symbol:</div> <input id="inputShortSynthSymbol" type="text" /></div>
+          <div class="item"><div>Price Identifier:</div> <input id="inputPriceIdentifier" type="text" placeholder=""/></div>
+          <div class="item"><div>Long Synth Name:</div> <input id="inputLongSynthName" type="text" placeholder=""/></div>
+          <div class="item"><div>Long Synth Symbol:</div> <input id="inputLongSynthSymbol" type="text" placeholder=""/></div>
+          <div class="item"><div>Short Synth Name:</div> <input id="inputShortSynthName" type="text" placeholder=""/></div>
+          <div class="item"><div>Short Synth Symbol:</div> <input id="inputShortSynthSymbol" type="text" placeholder=""/></div>
           <div class="item"><div>collateral Token:</div> <input id="inputcollateralToken" type="text" placeholder="0x489Bf230d4Ab5c2083556E394a28276C22c3B580"/></div>
-          <div class="item"><div>Strike Price:</div> <input id="inputstrikePrice" type="text" placeholder="0x489Bf230d4Ab5c2083556E394a28276C22c3B580"/></div>
-          <div class="item"><div>Prepaid Proposer Bond:</div> <input id="inputprepaidProposerBond" type="text" placeholder="0x489Bf230d4Ab5c2083556E394a28276C22c3B580"/></div>
-          <div class="item"><div>Optimistic Oracle Proposer Bond:</div> <input id="inputOptimisticOracleProposerBond" type="text" placeholder="0x489Bf230d4Ab5c2083556E394a28276C22c3B580"/></div>
+          <div class="item"><div>Strike Price:</div> <input id="inputstrikePrice" type="range" name="volume" min="1" max="1000000000000000000"/></div>
+          <div class="item"><div>Prepaid Proposer Bond:</div> <input id="inputprepaidProposerBond" type="range" name="volume" min="1" max="1000000000000000000"/></div>
+          <div class="item"><div>Optimistic Oracle Proposer Bond:</div> <input id="inputOptimisticOracleProposerBond" type="range" name="volume" min="1" max="1000000000000000000"/></div>
         </div>
-        
 
-        <button id="deployButton">Deploy</button>
+        <div>
+          <button id="deployButton">DEPLOY</button>
+        </div>
       </div>
 
       <div class="" id="error">

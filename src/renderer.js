@@ -17,7 +17,7 @@ const rangeButton = document.getElementById("button-4");
 const cappedButton = document.getElementById("button-5");
 const successButton = document.getElementById("button-6");
 const simpleButton = document.getElementById("button-7");
-const deployButton = document.getElementById("deployButto");
+const deployButton = document.getElementById("deployButton");
 
 /*
 *input
@@ -26,42 +26,36 @@ const inputDirectory = document.getElementById("inputDirectory");
 const inputGasPrice = document.getElementById("inputGasPrice");
 const inputNetwork = document.getElementById("inputNetwork");
 const inputMnemonic = document.getElementById("inputMnemonic");
-
 const inputPairName = document.getElementById("inputPairName");
 const InputExpirationTimeStamp = document.getElementById("InputExpirationTimeStamp");
 const inputPriceIdentifier = document.getElementById("inputPriceIdentifier");
 const inputLongSynthName = document.getElementById("inputLongSynthName");
 const inputLongSynthSymbol = document.getElementById("inputLongSynthSymbol");
-const nputShortSynthName = document.getElementById("inputLongSynthSymbol");
+const inputShortSynthName = document.getElementById("inputLongSynthSymbol");
 const inputShortSynthSymbol = document.getElementById("inputLongSynthSymbol");
-const inputcollateralToken = document.getElementById("inputcollateralToken");
-const inputstrikePrice = document.getElementById("inputstrikePrice");
-const inputprepaidProposerBond = document.getElementById("inputprepaidProposerBond");
+const inputCollateralToken = document.getElementById("inputcollateralToken");
+const inputStrikePrice = document.getElementById("inputstrikePrice");
+const inputPrepaidProposerBond = document.getElementById("inputprepaidProposerBond");
 const inputOptimisticOracleProposerBond = document.getElementById("inputOptimisticOracleProposerBond");
 
-let directory = null;//`~/launch-lsp`;
+let directory = null;
 let gasPrice = 50;
-let network = null; //'wss://kovan.infura.io/ws/v3/59d00dc67a404e0f96f2cff39d9b0178';
+let network = null;
 let nmemonic = null;
-let fpl = "BinaryOption";
-let pairName = "UMA \$12 Binary Option Token Pair August 2022";
-let code = `node ${directory}/index.js --gasprice ${gasPrice} --url ${network} --fpl ${fpl}`;
-
-/*
---pairName "" 
---expirationTimestamp 1661983200 
---collateralPerPair 250000000000000000 
---priceIdentifier UMAUSD 
---longSynthName "UMA \$12 Binary Option Token August 2022" 
---longSynthSymbol UMA-0822 
---shortSynthName "UMA \$12 Binary Option Short Token August 2022" 
---shortSynthSymbol UMA-0822s 
---collateralToken 0x489Bf230d4Ab5c2083556E394a28276C22c3B580 
---strikePrice 12000000000000000000
---prepaidProposerBond 20000000000000000000 
---optimisticOracleProposerBond 40000000000000000000
-*/
-
+let fpl = null;
+let pairName = null;
+let expirationTimestamp = null;
+let collateralPerPair = null;
+let priceIdentifier = null;
+let longSynthName = null;
+let longSynthSymbol = null;
+let shortSynthName = null;
+let shortSynthSymbol = null;
+let collateralToken = null;
+let strikePrice = null;
+let prepaidProposerBond = null;
+let optimisticOracleProposerBond = null;
+let code = null;
 
 const deployContact = () => {
         exec(`node ${directory}index.js --gasprice ${gasPrice} --url ${network} --mnemonic "${nuemonic}" --pairName ${pairName} --expirationTimestamp 1661983200 --collateralPerPair 250000000000000000 --priceIdentifier UMAUSD --longSynthName "UMA \$12 Binary Option Token August 2022" --longSynthSymbol UMA-0822 --shortSynthName "UMA \$12 Binary Option Short Token August 2022" --shortSynthSymbol UMA-0822s --collateralToken 0x489Bf230d4Ab5c2083556E394a28276C22c3B580 --fpl BinaryOption --strikePrice 12000000000000000000 --prepaidProposerBond 20000000000000000000 --optimisticOracleProposerBond 40000000000000000000`, (error, data, getter) => {
@@ -83,11 +77,20 @@ const deployContact = () => {
                         console.log("please install node 14 + ");
                 }
         });
-}
-
+};
 
 const updateCode = () => {
-        code = `node ${directory}/index.js --gasprice ${gasPrice} --url ${network} --url ${network} --fpl ${fpl}`;
+        code = `node ${directory}/index.js 
+                --gasprice ${gasPrice} --url ${network} 
+                --mnemonic "${nmemonic}" --pairName "${pairName}"
+                --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair} 
+                --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}"
+                --longSynthSymbol "${longSynthSymbol}" --shortSynthName "${shortSynthName}"
+                --shortSynthSymbol "${shortSynthSymbol}" --collateralToken ${collateralToken}
+                --fpl "${fpl}" --strikePrice ${strikePrice}  
+                --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}
+                `;
+
         document.getElementById("code").innerText = code;
 };
 
@@ -109,45 +112,67 @@ const updateNetwork = (event) => {
 const updateNmemonic = (event) => {
         nmemonic = event.target.value;
         updateCode();
-}
+};
 
 const updatePairName = (event) => {
-}
+        pairName = event.target.value;
+        updateCode();
+};
 
 const updateExpirationTimeStamp = (event) => {
-}
+        expirationTimestamp = event.target.value;
+        updateCode();
+};
 
 const updateCollateralPerPair = (event) => {
-}
+        collateralPerPair = event.target.value;
+        updateCode();
+};
 
 const updatePriceIdentifier = (event) => {
-}
+        priceIdentifier = event.target.value;
+        updateCode();
+};
 
 const updateLongSynthName = (event) => {
-}
+        longSynthName = event.target.value;
+        updateCode();
+};
 
 const updateLongSynthSymbol = (event) => {
-}
+        longSynthSymbol = event.target.value;
+        updateCode();
+};
 
 const updateShortSynthName = (event) => {
-}
+        shortSynthName = event.target.value;
+        updateCode();
+};
 
 const updateShortSynthSymbol = (event) => {
-}
+        shortSynthSymbol = event.target.value;
+        updateCode();
+};
 
 const updateCollateralToken = (event) => {
-}
+        collateralToken = event.target.value;
+        updateCode();
+};
 
 const updateStrikePrice = (event) => {
-}
+        strikePrice = event.target.value;
+        updateCode();
+};
 
 const updatePrepaidProposerBond = (event) => {
-}
+        prepaidProposerBond = event.target.value;
+        updateCode();
+};
 
 const updateOptimisticOracleProposerBond = (event) => {
-}
-
-
+        optimisticOracleProposerBond = event.target.value;
+        updateCode();
+};
 
 /*
 * button events
@@ -209,10 +234,19 @@ inputDirectory.addEventListener('input', updateDirectory);
 inputGasPrice.addEventListener('input', updateGasPrice);
 inputNetwork.addEventListener('input', updateNetwork);
 inputMnemonic.addEventListener('input', updateNmemonic);
+inputPairName.addEventListener('input', updatePairName);
+InputExpirationTimeStamp.addEventListener('input', updateExpirationTimeStamp);
+inputPriceIdentifier.addEventListener('input', updatePriceIdentifier);
+inputLongSynthName.addEventListener('input', updateLongSynthName);
+inputLongSynthSymbol.addEventListener('input', updateLongSynthSymbol);
+inputShortSynthName.addEventListener('input', updateShortSynthName);
+inputShortSynthSymbol.addEventListener('input', updateShortSynthSymbol);
+inputCollateralToken.addEventListener('input', updateCollateralToken);
+inputStrikePrice.addEventListener('input', updateStrikePrice);
+inputPrepaidProposerBond.addEventListener('input', updatePrepaidProposerBond);
+inputOptimisticOracleProposerBond.addEventListener('input', updateOptimisticOracleProposerBond);
 
 document.getElementById("main-title").innerText = "Binary Option";
 document.getElementById("main-about").innerText = "Binary options settle with all collateral allocated to either the long or short side, depending on the settlement price. They can be used to make prediction markets or any kind of binary bet. Settlement is defined using a strike price which informs which side of the bet was correct. If the settlement price is greater or equal to the strike then all value is sent to the long side. Otherwise, all value is sent to the short side. The settlement price could be a scalar (like the price of ETH) or a binary bet with settlement being 0 or 1 depending on the outcome.";
-
-console.log("Timestamp: ", Math.floor(Date.now() / 1000))
-
+fpl = "BinaryOption";
 updateCode();
