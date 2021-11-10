@@ -143,14 +143,14 @@ input{
     overflow: hidden;
 }
 
-/*#code{
+#code{
     display: flex;
     flex-direction: row;
     clear: both;
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
-}*/
+}
 
 #options{
     display: flex;
@@ -178,4 +178,6 @@ input{
     color: white;
     align-items: flex-start;
     justify-content: center;
+    padding: 30px;
+    overflow-y: scroll;
 }

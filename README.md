@@ -1,18 +1,23 @@
 # UMA Bounty
 
-## Getting Started
+# Getting Started
 
-1. install from yarn
+1. clone
+```
+    git clone https://github.com/mindsgn/uma_bounty
+```
+
+2. install from yarn
 ```
     yarn
 ```
 
-2. launch UMA UI
+3. launch UMA UI
 ```
     yarn dev
 ```
 
-## video
+# video
 ```
     https://youtub.com/
 ```

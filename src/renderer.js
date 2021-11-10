@@ -34,7 +34,7 @@ const inputLongSynthName = document.getElementById("inputLongSynthName");
 const inputLongSynthSymbol = document.getElementById("inputLongSynthSymbol");
 const inputShortSynthName = document.getElementById("inputLongSynthName");
 const inputShortSynthSymbol = document.getElementById("inputShortSynthSymbol");
-const inputCollateralToken = document.getElementById("inputShortSynthSymbol");
+const inputCollateralToken = document.getElementById("inputCollateralToken");
 const inputStrikePrice = document.getElementById("inputstrikePrice");
 const inputPrepaidProposerBond = document.getElementById("inputprepaidProposerBond");
 const inputOptimisticOracleProposerBond = document.getElementById("inputOptimisticOracleProposerBond");
@@ -57,6 +57,7 @@ let strikePrice = 12000000000000000000;
 let prepaidProposerBond = 20000000000000000000;
 let optimisticOracleProposerBond = 40000000000000000000;
 
+
 let code = null;
 
 const deployToken = () => {
@@ -70,15 +71,17 @@ const deployToken = () => {
 
                 if(getter){
                         document.getElementById("button-box").style.display = "flex";
-                        document.getElementById("status-console").innerText = error;
+                        document.getElementById("status-console").innerText = data;
                         return;
                 }
         });
+
 };
 
 const updateCode = () => {
-        code = `node ${directory}/index.js --gasprice ${gasPrice}  --url ${network}  --mnemonic "${nmemonic}" --pairName "${pairName}"  --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair}  --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}" --longSynthSymbol ${longSynthSymbol} --shortSynthName "${shortSynthName}" --shortSynthSymbol ${shortSynthSymbol} --collateralToken ${collateralToken} --fpl "${fpl}" --strikePrice ${strikePrice}  --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}`;
+        code = `node ${directory}/index.js --gasprice ${gasPrice}  --url ${network}  --mnemonic "${nmemonic}" --pairName "${pairName}"  --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair}  --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}" --longSynthSymbol ${longSynthSymbol} --shortSynthName "${shortSynthName}" --shortSynthSymbol ${shortSynthSymbol} --collateralToken ${collateralToken} --fpl ${fpl} --strikePrice ${strikePrice}  --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}`;
         document.getElementById("code").innerText = code;
+        document.getElementById("status-console").innerText = code;
 };
 
 const updateDirectory = (event) => {     
@@ -207,6 +210,7 @@ cappedButton.onclick = () => {
         fpl = "CappedYieldDollar";
         updateCode();
         document.getElementById("main-title").innerText = "Capped Yield Dollar";
+        document.getElementById("main-about").innerHTML = "Binary options settle with all collateral allocated to either the long or short side, depending on the settlement price. They can be used to make prediction markets or any kind of binary bet. Settlement is defined using a strike price which informs which side of the bet was correct. If the settlement price is greater or equal to the strike then all value is sent to the long side. Otherwise, all value is sent to the short side. The settlement price could be a scalar (like the price of ETH) or a binary bet with settlement being 0 or 1 depending on the outcome.";
 }
 
 successButton.onclick = () => {
