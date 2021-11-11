@@ -144,7 +144,6 @@ input{
 }
 
 #code{
-    display: flex;
     flex-direction: row;
     clear: both;
     display: inline-block;

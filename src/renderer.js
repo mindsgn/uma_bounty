@@ -7,8 +7,8 @@
 const { exec } = require("child_process");
 
 /*
-* buttons
-*/
+ *       buttons
+ */
 const startButton = document.getElementById("startButton");
 const binaryButton = document.getElementById("button-1");
 const coveredButton = document.getElementById("button-2");
@@ -20,8 +20,8 @@ const simpleButton = document.getElementById("button-7");
 const deployButton = document.getElementById("deployButton");
 
 /*
-*input
-*/
+ *       input
+ */
 const inputDirectory = document.getElementById("inputDirectory");
 const inputGasPrice = document.getElementById("inputGasPrice");
 const inputNetwork = document.getElementById("inputNetwork");
@@ -39,6 +39,9 @@ const inputStrikePrice = document.getElementById("inputstrikePrice");
 const inputPrepaidProposerBond = document.getElementById("inputprepaidProposerBond");
 const inputOptimisticOracleProposerBond = document.getElementById("inputOptimisticOracleProposerBond");
 
+/*
+ *      
+ */
 let directory = null;
 let gasPrice = 1;
 let network = null;
@@ -56,31 +59,45 @@ let collateralToken = "0x489Bf230d4Ab5c2083556E394a28276C22c3B580";
 let strikePrice = 12000000000000000000;
 let prepaidProposerBond = 20000000000000000000;
 let optimisticOracleProposerBond = 40000000000000000000;
-
+let upperBound = null;
 
 let code = null;
 
 const deployToken = () => {
+        document.getElementById("code").style.display = "flex";
+        document.getElementById("code").innerText = "deploying Token";
         document.getElementById("button-box").style.display = "none";
+        
+        if(upperBound){
+                code = code + `--upperBond ${upperBound}`                 
+        }
+
+        if(upperBound){
+                code = code + `--upperBond ${upperBound}`                 
+        }
+
         exec(`${code}`, (error, data, getter) => {
+                
                 if(error){
                         document.getElementById("button-box").style.display = "flex";
                         document.getElementById("status-console").innerText = error;
+                        document.getElementById("code").innerText = "failed to deploy contract";
                         return;
                 }
 
                 if(getter){
                         document.getElementById("button-box").style.display = "flex";
                         document.getElementById("status-console").innerText = data;
+                        document.getElementById("code").innerText = "succefully deployed contract";
                         return;
                 }
         });
-
+y
 };
 
 const updateCode = () => {
         code = `node ${directory}/index.js --gasprice ${gasPrice}  --url ${network}  --mnemonic "${nmemonic}" --pairName "${pairName}"  --expirationTimestamp ${expirationTimestamp} --collateralPerPair ${collateralPerPair}  --priceIdentifier ${priceIdentifier} --longSynthName "${longSynthName}" --longSynthSymbol ${longSynthSymbol} --shortSynthName "${shortSynthName}" --shortSynthSymbol ${shortSynthSymbol} --collateralToken ${collateralToken} --fpl ${fpl} --strikePrice ${strikePrice}  --prepaidProposerBond ${prepaidProposerBond} --optimisticOracleProposerBond ${optimisticOracleProposerBond}`;
-        document.getElementById("code").innerText = code;
+        document.getElementById("code").style.display= "flex";
         document.getElementById("status-console").innerText = code;
 };
 
@@ -179,6 +196,7 @@ startButton.onclick = () => {
 };
 
 binaryButton.onclick = () => {
+        upperBound = null;
         fpl = "BinaryOption";
         updateCode();
         document.getElementById("main-title").innerText = "Binary Option";
@@ -186,6 +204,7 @@ binaryButton.onclick = () => {
 }
 
 coveredButton.onclick = () => {
+        upperBound = null;
         fpl = "CoveredCall";
         updateCode();
         document.getElementById("main-title").innerText = "Covered Call";
@@ -194,6 +213,7 @@ coveredButton.onclick = () => {
 
 linearButton.onclick = () => {
         fpl = "Linear";
+        upperBound = 12000000000000000000;
         updateCode();
         document.getElementById("main-title").innerText = "Linear";
         document.getElementById("main-about").innerHTML = "The linear fpl contract will payout a scaled amount of collateral depending on where the settlement price lands within a price range between an upperBound and a lowerBound. If the settlement price is within the price range then the expiryPercentLong is defined by (expiryPrice - lowerBound) / (upperBound - lowerBound). This number represents the amount of collateral from the collateralPerPair that will be sent to the long and short side. If the price is higher than the upperBound then expiryPercentLong = 1. if the price is lower than the lower bound then expiryPercentLong = 0. For example, consider a linear LSP on the price of ETH collateralized in USDC with an upperBound = 4000 and lowerBound = 2000 with a collateralPerPair of 1000 (i.e each pair of long and shorts is worth 1000 USDC). At settlement, the expiryPercentLong would equal 1 (each long worth 1000 and short worth 0) if ETH price was > 4000 and it would equal 0 if < 2000 (each long is worthless and each short is worth 1000). If between the two (say 3500) then expiryPercentLong = (3500 - 2000) / (4000 - 2000) = 0.75. Therefore each long is worth 750 and each short is worth 250.";
@@ -249,10 +269,11 @@ inputStrikePrice.addEventListener('input', updateStrikePrice);
 inputPrepaidProposerBond.addEventListener('input', updatePrepaidProposerBond);
 inputOptimisticOracleProposerBond.addEventListener('input', updateOptimisticOracleProposerBond);
 
+document.getElementById("code").style.display = "none";
+document.getElementById("code").innerText = "to customise your token change the values below";
 document.getElementById("main-title").innerText = "Binary Option";
 document.getElementById("main-about").innerText = "Binary options settle with all collateral allocated to either the long or short side, depending on the settlement price. They can be used to make prediction markets or any kind of binary bet. Settlement is defined using a strike price which informs which side of the bet was correct. If the settlement price is greater or equal to the strike then all value is sent to the long side. Otherwise, all value is sent to the short side. The settlement price could be a scalar (like the price of ETH) or a binary bet with settlement being 0 or 1 depending on the outcome.";
 fpl = "BinaryOption";
 updateCode();
-
 
 document.addEventListener('DOMContentLoaded', pageReady);
