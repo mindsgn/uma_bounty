@@ -19,5 +19,5 @@
 
 # video
 ```
-    https://youtub.com/
+    https://www.youtube.com/watch?v=LkwrZIN7Ulc
 ```
