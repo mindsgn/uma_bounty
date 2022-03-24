@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Web3ContextProvider } from '../context'
-import { HyphenProvider } from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return(
