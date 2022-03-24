@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
-import { Hyphen, SIGNATURE_TYPES, RESPONSE_CODES } from "@biconomy/hyphen";
 
 import {
   Web3ProviderState,
@@ -12,13 +11,11 @@ import {
   web3Reducer,
 } from '../reducers'
 
-import { toast } from 'react-toastify'
-
 const providerOptions = {
   walletlink: {
     package: CoinbaseWalletSDK,
     options: {
-      appName: 'Boilerplate Next',
+      appName: 'uma lsp contract',
       infuraId: `${process.env.NEXT_PUBLIC_INFURA_ID}`,
     },
   },
@@ -31,7 +28,6 @@ const providerOptions = {
 }
 
 let web3Modal: Web3Modal | null;
-let hyphen: Hyphen | null;
 
 if (typeof window !== 'undefined') {
   web3Modal = new Web3Modal({
@@ -53,56 +49,6 @@ export const useWeb3 = () => {
         const signer = web3Provider.getSigner()
         const address = await signer.getAddress()
         const network = await web3Provider.getNetwork()
-
-        toast.success('Connected to Web3')
-
-        try {
-        let hyphen = new Hyphen( provider, {
-          debug: true,            // If 'true', it prints debug logs on console window
-          environment: "prod",    // It can be "test" or "prod"
-          onFundsTransfered: (data) => {
-            // Optional Callback method which will be called when funds transfer across
-            // chains will be completed
-          }
-        });
-        
-        console.log("address")
-        await hyphen.init();
-
-        let preTransferStatus = await hyphen.preDepositStatus({
-          tokenAddress: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // Token address on fromChain which needs to be transferred
-          amount: 1000000000000, // Amount of tokens to be transferred in smallest unit eg wei
-          fromChainId: 137, // Chain id from where tokens needs to be transferred
-          toChainId: 43114, // Chain id where tokens are supposed to be sent
-          userAddress: address // User wallet address who want's to do the transfer
-        });
-
-        if (preTransferStatus.code === RESPONSE_CODES.OK) {
-          console.log("// ✅ ALL CHECKS PASSED. Proceed to do deposit transaction")
-        } else if(preTransferStatus.code === RESPONSE_CODES.ALLOWANCE_NOT_GIVEN) {
-          console.log("// ❌ Not enough apporval from user address on LiquidityPoolManager contract on fromChain")
-        } else if (preTransferStatus.code === RESPONSE_CODES.UNSUPPORTED_NETWORK) {
-          console.log("// ❌ Target chain id is not supported yet")
-        } else if (preTransferStatus.code === RESPONSE_CODES.NO_LIQUIDITY) {
-          console.log("// ❌ No liquidity available on target chain for given tokenn")
-        } else if (preTransferStatus.code === RESPONSE_CODES.UNSUPPORTED_TOKEN) {
-          console.log("// ❌ Requested token is not supported on fromChain yet")
-        } else {
-          console.log("// ❌ Any other unexpected error")
-        }
-
-        console.log(hyphen)
-        dispatch({
-          type: 'SET_WEB3_PROVIDER',
-          provider,
-          web3Provider,
-          address,
-          network,
-        } as Web3Action)
-
-      } catch(error){
-        console.log(error)
-      }
       } catch (e) {
         console.log('connect error', e)
       }
@@ -117,7 +63,7 @@ export const useWeb3 = () => {
       if (provider?.disconnect && typeof provider.disconnect === 'function') {
         await provider.disconnect()
       }
-      toast.error('Disconnected from Web3')
+      console.error('Disconnected from Web3')
       dispatch({
         type: 'RESET_WEB3_PROVIDER',
       } as Web3Action)
@@ -137,7 +83,7 @@ export const useWeb3 = () => {
   useEffect(() => {
     if (provider?.on) {
       const handleAccountsChanged = (accounts: string[]) => {
-        toast.info('Changed Web3 Account')
+        console.info('Changed Web3 Account')
         dispatch({
           type: 'SET_ADDRESS',
           address: accounts[0],
@@ -148,7 +94,7 @@ export const useWeb3 = () => {
       const handleChainChanged = (_hexChainId: string) => {
         if (typeof window !== 'undefined') {
           console.log('switched to chain...', _hexChainId)
-          toast.info('Web3 Network Changed')
+          console.info('Web3 Network Changed')
           window.location.reload()
         } else {
           console.log('window is undefined')
